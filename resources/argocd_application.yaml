@@ -1,0 +1,33 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Name }}
+  namespace: {{ .Argocd_app_namespace }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ .Project }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ .Namespace }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+  source:
+    repoURL: {{ .Argocd_app_source_repo_url }}
+    targetRevision: {{ .Argocd_app_source_target_revision }}
+    path: {{ .Argocd_app_source_path }}
+    plugin:
+      name: helm-overdrive
+      env:
+      - name: HO_APPLICATION_FOLDER
+        value: {{ .Application_folder }}
+      - name: HO_HELM_REPO
+        value: {{ .Source.Helm_repo }}
+      - name: HO_CHART_NAME
+        value: {{ .Source.Chart_name }}
+      - name: HO_CHART_VERSION
+        value: {{ .Source.Chart_version }}
