@@ -13,7 +13,7 @@ var isDebug bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "helm-overdrive",
+	Use:   "helm-overdrive-app-discover",
 	Short: "Templating multiple environments together",
 	Long: `Helm-overdrive is a tool that allows the templating og multiple yaml resources on top of each other.	`,
 
