@@ -3,7 +3,6 @@ package cmd
 import (
 	"os"
 
-	"github.com/distributed-technologies/helm-overdrive-app-discover/pkg/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -34,7 +33,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	// Persistent Flags will be available to this command and all subcommands to this
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.helm-overdrive.yaml)")
+	// rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.helm-overdrive.yaml)")
 	rootCmd.PersistentFlags().BoolVar(&isDebug, "debug", false, "enable debug logs")
 
 	viper.BindPFlags(rootCmd.Flags())
@@ -46,21 +45,4 @@ func initConfig() {
 	viper.SetEnvPrefix("HO") // Standing for 'helm-overdrive'
 	viper.AutomaticEnv()     // read in environment variables that match
 
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else if viper.GetString("config") != "" {
-		// Use config file from environment 'HO_CONFIG'
-		viper.SetConfigFile(viper.GetString("config"))
-	} else {
-		// Look in these paths for a config file
-		viper.AddConfigPath("./") // Checks running dir
-		viper.SetConfigType("yaml")
-		viper.SetConfigName("helm-overdrive")
-	}
-
-	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		logging.Debug("Using config file: %s\n", viper.ConfigFileUsed())
-	}
 }
