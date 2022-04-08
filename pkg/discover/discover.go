@@ -9,7 +9,6 @@ import (
 	"text/template"
 
 	"github.com/distributed-technologies/helm-overdrive-app-discover/pkg/logging"
-	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
 )
 
@@ -88,8 +87,6 @@ func Discover(folder string) error {
 		app.Application_folder = tmpString
 
 		logging.Debug("App: %v\n", app)
-
-		logging.Debug("viper.AllSettings(): %v\n", viper.AllSettings())
 
 		app.GenArgoCDApp()
 	}
